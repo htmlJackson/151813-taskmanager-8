@@ -1,7 +1,7 @@
 # Личный проект «Менеджер задач» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений Бервяченок](https://up.htmlacademy.ru/ecmascript/8/user/151813).
-* Наставник: `Неизвестно`.
+* Наставник: [Олег Скляров](https://htmlacademy.ru/profile/id926687).
 
 ---
 
