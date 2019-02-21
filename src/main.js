@@ -4,11 +4,11 @@ const mainFilter = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
 
 const getFilterElement = (caption, amount, isDisabled = false, isChecked = false) =>
-  `<input type="radio" id="filter__${caption}" class="filter__input visually-hidden" name="filter" ${isChecked ? " checked" : ""} ${isDisabled ? " disabled" : ""}>
+  `<input type="radio" id="filter__${caption}" class="filter__input visually-hidden" name="filter" ${isChecked ? ` checked` : ``} ${isDisabled ? ` disabled` : ``}>
    <label for="filter__${caption}" class="filter__label">${caption.toUpperCase()} <span class="filter__all-count">${amount}</span></label>`;
 
 const getCardElement = (caption = ``, color = `black`, isEditable = false, isRepeatable = false, isExpired = false) =>
-  `<article class="card card--${color} ${isEditable ? " card--edit" : ""} ${isRepeatable ? " card--repeat" : ""} ${isExpired ? " card--deadline" : ""}">
+  `<article class="card card--${color} ${isEditable ? ` card--edit` : ``} ${isRepeatable ? ` card--repeat` : ``} ${isExpired ? ` card--deadline` : ``}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
@@ -149,7 +149,7 @@ const generateRandomCards = (count = 7) => {
 
   for (let i = 0; i < count; i++) {
     result += getCardElement(`Random generated task`);
-  };
+  }
 
   return result;
 };
@@ -157,7 +157,7 @@ const generateRandomCards = (count = 7) => {
 const clearBoard = () => {
   while (boardTasks.firstChild) {
     boardTasks.removeChild(boardTasks.firstChild);
-  };
+  }
 };
 
 mainFilter.insertAdjacentHTML(`beforeend`, `
