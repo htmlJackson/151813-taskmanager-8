@@ -1,5 +1,6 @@
 import makeFilter from './make-filter.js';
 import makeTask from './make-task.js';
+import {allTasks} from './data.js';
 
 const mainFilter = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
@@ -15,13 +16,11 @@ mainFilter.insertAdjacentHTML(`beforeend`, `
 `);
 
 
-const generateRandomTasks = (count = 7) => {
+const generateRandomTasks = () => {
   let result = ``;
-
-  for (let i = 0; i < count; i++) {
-    result += makeTask(`Random generated task`);
+  for (let i of allTasks) {
+    result += makeTask(i);
   }
-
   return result;
 };
 
