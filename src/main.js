@@ -37,6 +37,6 @@ const filtersList = document.querySelectorAll(`.filter__input`);
 Array.from(filtersList).forEach((elem) => {
   elem.addEventListener(`click`, () => {
     clearBoard();
-    boardTasks.insertAdjacentHTML(`beforeend`, generateRandomTasks(Math.floor((Math.random() * 10) + 1)));
+    boardTasks.insertAdjacentHTML(`beforeend`, generateRandomTasks());
   });
 });
