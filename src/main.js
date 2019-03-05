@@ -18,8 +18,8 @@ mainFilter.insertAdjacentHTML(`beforeend`, `
 
 const generateRandomTasks = () => {
   let result = ``;
-  for (let i of allTasks) {
-    result += makeTask(i);
+  for (const task of allTasks) {
+    result += makeTask(task);
   }
   return result;
 };

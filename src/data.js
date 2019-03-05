@@ -1,26 +1,43 @@
+import Util from './util.js';
+
+const MAX_TAGS_PER_TASK = 3;
+
+const COLORS = [
+  `black`,
+  `yellow`,
+  `blue`,
+  `green`,
+  `pink`
+];
+
+const TAGS = [
+  `homework`,
+  `theory`,
+  `practice`,
+  `intensive`,
+  `keks`,
+  `html`,
+  `css`,
+  `javascript`,
+];
+
+const TITLES = [
+  `Изучить теорию`,
+  `Сделать домашку`,
+  `Пройти интенсив на соточку`
+];
+
+const NUMBER_OF_TASKS = 7;
+
 export const task = {
   get title() {
-    return [
-      `Изучить теорию`,
-      `Сделать домашку`,
-      `Пройти интенсив на соточку`
-    ][Math.floor(Math.random() * 3)];
+    return TITLES[Util.getRandomIndex(TITLES.length)];
   },
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
-  tagsList: new Set([
-    `homework`,
-    `theory`,
-    `practice`,
-    `intensive`,
-    `keks`,
-    `html`,
-    `css`,
-    `javascript`,
-  ]),
+  dueDate: Date.now() + 1 + Util.getRandomIndex(7) * 24 * 60 * 60 * 1000,
   get tags() {
     const generatedTags = new Set();
-    for (let i = 0; i < (Math.floor(Math.random() * 4)); i++) {
-      generatedTags.add([...this.tagsList][Math.floor(Math.random() * this.tagsList.size)]);
+    for (let i = 0; i <= Util.getRandomIndex(MAX_TAGS_PER_TASK); i++) {
+      generatedTags.add(TAGS[Util.getRandomIndex(TAGS.length)]);
     }
     return generatedTags;
   },
@@ -28,13 +45,7 @@ export const task = {
     return `http://picsum.photos/100/100?r=${Math.random()}`;
   },
   get color() {
-    return [
-      `black`,
-      `yellow`,
-      `blue`,
-      `green`,
-      `pink`
-    ][Math.floor(Math.random() * 5)];
+    return COLORS[Util.getRandomIndex(COLORS.length)];
   },
   repeatingDays: {
     'Mo': true,
@@ -45,19 +56,17 @@ export const task = {
     'Sa': false,
     'Su': true
   },
-  isFavorite: [
-    true,
-    false
-  ][Math.floor(Math.random() * 2)],
-  isDone: [
-    true,
-    false
-  ][Math.floor(Math.random() * 2)]
+  get isFavorite() {
+    return !!Util.getRandomIndex(2);
+  },
+  get isDone() {
+    return !!Util.getRandomIndex(2);
+  }
 };
 
 const allTasks = [];
 
-for (let i = 0; i < 7; i++) {
+for (let i = 0; i < NUMBER_OF_TASKS; i++) {
   allTasks.push(task);
 }
 
