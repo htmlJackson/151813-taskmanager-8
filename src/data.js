@@ -1,6 +1,10 @@
 import Util from './util.js';
 
 const MAX_TAGS_PER_TASK = 3;
+const NUMBER_OF_TASKS = 7;
+const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+const MILLISECONDS_IN_WEEK = MILLISECONDS_IN_DAY * 7;
+const DATE_GAP_IN_DAYS = 14;
 
 const COLORS = [
   `black`,
@@ -27,13 +31,26 @@ const TITLES = [
   `Пройти интенсив на соточку`
 ];
 
-const NUMBER_OF_TASKS = 7;
-
 export const task = {
   get title() {
     return TITLES[Util.getRandomIndex(TITLES.length)];
   },
-  dueDate: Date.now() + 1 + Util.getRandomIndex(7) * 24 * 60 * 60 * 1000,
+  dueDate: Date.now() - MILLISECONDS_IN_WEEK + Util.getRandomIndex(DATE_GAP_IN_DAYS) * MILLISECONDS_IN_DAY,
+  get date() {
+    return new Date(this.dueDate);
+  },
+  get dateString() {
+    return this.date.toLocaleString(`en-US`, {
+      month: `long`,
+      day: `numeric`,
+    });
+  },
+  get time() {
+    return this.date.toLocaleString(`ru`, {
+      hour: `numeric`,
+      minute: `numeric`
+    });
+  },
   get tags() {
     const generatedTags = new Set();
     for (let i = 0; i <= Util.getRandomIndex(MAX_TAGS_PER_TASK); i++) {
