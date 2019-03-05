@@ -57,10 +57,10 @@ export const task = {
     'Su': true
   },
   get isFavorite() {
-    return !!Util.getRandomIndex(2);
+    return Util.getRandomBoolean();
   },
   get isDone() {
-    return !!Util.getRandomIndex(2);
+    return Util.getRandomBoolean();
   }
 };
 
