@@ -35,9 +35,9 @@ export const task = {
   get title() {
     return TITLES[Util.getRandomIndex(TITLES.length)];
   },
-  dueDate: Date.now() - MILLISECONDS_IN_WEEK + Util.getRandomIndex(DATE_GAP_IN_DAYS) * MILLISECONDS_IN_DAY,
   get date() {
-    return new Date(this.dueDate);
+    const dueDate = Date.now() - MILLISECONDS_IN_WEEK + Util.getRandomIndex(DATE_GAP_IN_DAYS) * MILLISECONDS_IN_DAY;
+    return new Date(dueDate);
   },
   get dateString() {
     return this.date.toLocaleString(`en-US`, {
