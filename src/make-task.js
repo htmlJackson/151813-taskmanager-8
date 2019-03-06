@@ -1,5 +1,18 @@
-export default (caption = ``, color = `black`, isEditable = false, isRepeatable = false, isExpired = false) =>
-  `<article class="card card--${color} ${isEditable ? ` card--edit` : ``} ${isRepeatable ? ` card--repeat` : ``} ${isExpired ? ` card--deadline` : ``}">
+export default (task, isEditable = false, isRepeatable = false, isExpired = false) => {
+  const hashtagsMarkdown = [...task.tags].map((it) => {
+    return `
+    <span class="card__hashtag-inner">
+      <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+      <button type="button" class="card__hashtag-name">
+        #${it}
+      </button>
+      <button type="button" class="card__hashtag-delete">
+        delete
+      </button>
+    </span>
+    `;
+  }).join(``);
+  return `<article class="card card--${task.color} ${isEditable ? ` card--edit` : ``} ${isRepeatable ? ` card--repeat` : ``} ${isExpired ? ` card--deadline` : ``}">
     <form class="card__form" method="get">
       <div class="card__inner">
         <div class="card__control">
@@ -22,7 +35,7 @@ export default (caption = ``, color = `black`, isEditable = false, isRepeatable 
 
         <div class="card__textarea-wrap">
           <label>
-            <textarea class="card__text" placeholder="Start typing your text here..." name="text">${caption}</textarea>
+            <textarea class="card__text" placeholder="Start typing your text here..." name="text">${task.title}</textarea>
           </label>
         </div>
 
@@ -35,10 +48,10 @@ export default (caption = ``, color = `black`, isEditable = false, isRepeatable 
 
               <fieldset class="card__date-deadline">
                 <label class="card__input-deadline-wrap">
-                  <input class="card__date" type="text" placeholder="23 September" name="date" value="23 September">
+                  <input class="card__date" type="text" placeholder="${task.dateString}" name="date" value="${task.dateString}">
                 </label>
                 <label class="card__input-deadline-wrap">
-                  <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="11:15 PM">
+                  <input class="card__time" type="text" placeholder="${task.time}" name="time" value="${task.time}">
                 </label>
               </fieldset>
 
@@ -68,35 +81,7 @@ export default (caption = ``, color = `black`, isEditable = false, isRepeatable 
 
             <div class="card__hashtag">
               <div class="card__hashtag-list">
-                <span class="card__hashtag-inner">
-                  <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-                  <button type="button" class="card__hashtag-name">
-                    #repeat
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-
-                <span class="card__hashtag-inner">
-                  <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-                  <button type="button" class="card__hashtag-name">
-                    #cinema
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
-
-                <span class="card__hashtag-inner">
-                  <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-                  <button type="button" class="card__hashtag-name">
-                    #entertaiment
-                  </button>
-                  <button type="button" class="card__hashtag-delete">
-                    delete
-                  </button>
-                </span>
+                ${hashtagsMarkdown}
               </div>
 
               <label>
@@ -107,7 +92,7 @@ export default (caption = ``, color = `black`, isEditable = false, isRepeatable 
 
           <label class="card__img-wrap">
             <input type="file" class="card__img-input visually-hidden" name="img">
-            <img src="img/sample-img.jpg" alt="task picture" class="card__img">
+            <img src="${task.picture}" alt="task picture" class="card__img">
           </label>
 
           <div class="card__colors-inner">
@@ -134,3 +119,4 @@ export default (caption = ``, color = `black`, isEditable = false, isRepeatable 
       </div>
     </form>
   </article>`;
+};
