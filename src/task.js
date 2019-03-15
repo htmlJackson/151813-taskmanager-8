@@ -21,8 +21,7 @@ class Task {
   }
 
   _onEditButtonClick() {
-    this._state.isEdit = !this._state.isEdit;
-    this.update();
+    typeof this._onEdit === `function` && this._onEdit();
   }
 
   get _hashtagsMarkdown() {
@@ -119,6 +118,7 @@ class Task {
     this._element.querySelector(`.card__btn--edit`)
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
+
   render(container) {
     if (this._element) {
       container.removeChild(this._element);
@@ -145,6 +145,10 @@ class Task {
     }
 
     this._element.classList.remove(`card--edit`);
+  }
+
+  set onEdit(fn) {
+    this._onEdit = fn;
   }
 
 }
