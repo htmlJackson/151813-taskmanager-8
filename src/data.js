@@ -31,7 +31,7 @@ const TITLES = [
   `Пройти интенсив на соточку`
 ];
 
-export const task = {
+export const dataTask = {
   get title() {
     return TITLES[Util.getRandomIndex(TITLES.length)];
   },
@@ -84,7 +84,7 @@ export const task = {
 const allTasks = [];
 
 for (let i = 0; i < NUMBER_OF_TASKS; i++) {
-  allTasks.push(task);
+  allTasks.push(dataTask);
 }
 
 export {allTasks};
