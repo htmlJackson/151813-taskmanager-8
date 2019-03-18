@@ -20,6 +20,12 @@ class TaskEdit {
     return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
+  _onSubmitButtonClick() {
+    if (typeof this._onSubmit === `function`) {
+      this._onSubmit();
+    }
+  }
+
   get hashtagsMarkdown() {
     const hashtags = [...this._tags].map((it) => {
       return `
@@ -40,7 +46,7 @@ class TaskEdit {
 
   get template() {
     return `
-    <article class="card card--${this._color} ${this._isRepeated() ? `card--repeat` : ``}">
+    <article class="card card--edit card--${this._color} ${this._isRepeated() ? `card--repeat` : ``}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__control">
@@ -150,13 +156,8 @@ class TaskEdit {
   }
 
   bind() {
-    this._element.querySelector(`.card__btn--edit`)
-    .addEventListener(`click`, this._onEditButtonClick.bind(this));
-  }
-
-  unbind() {
-    this._element.querySelector(`.card__btn--edit`)
-      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
+    this._element.querySelector(`.card__save`)
+    .addEventListener(`click`, this._onSubmitButtonClick.bind(this));
   }
 
   render(container) {
@@ -169,13 +170,14 @@ class TaskEdit {
     container.appendChild(this._element);
 
     this.bind();
-    // this.update();
   }
 
-  unrender(container) {
-    container.removeChild(this._element);
+  unrender() {
     this._element = null;
-    this.unbind();
+  }
+
+  set onSubmit(fn) {
+    this._onSubmit = fn;
   }
 
 }

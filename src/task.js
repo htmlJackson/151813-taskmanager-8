@@ -21,7 +21,9 @@ class Task {
   }
 
   _onEditButtonClick() {
-    typeof this._onEdit === `function` && this._onEdit();
+    if (typeof this._onEdit === `function`) {
+      this._onEdit();
+    }
   }
 
   get _hashtagsMarkdown() {
@@ -114,11 +116,6 @@ class Task {
     .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
-  unbind() {
-    this._element.querySelector(`.card__btn--edit`)
-      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
-  }
-
   render(container) {
     if (this._element) {
       container.removeChild(this._element);
@@ -129,22 +126,10 @@ class Task {
     container.appendChild(this._element);
 
     this.bind();
-    this.update();
   }
 
-  unrender(container) {
-    container.removeChild(this._element);
+  unrender() {
     this._element = null;
-    this.unbind();
-  }
-
-  update() {
-    if (this._state.isEdit) {
-      this._element.classList.add(`card--edit`);
-      return;
-    }
-
-    this._element.classList.remove(`card--edit`);
   }
 
   set onEdit(fn) {

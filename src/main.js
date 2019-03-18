@@ -1,14 +1,9 @@
 import makeFilter from './make-filter.js';
-import makeTask from './make-task.js';
-import {dataTask} from './data.js';
 import {allTasks} from './data.js';
-
-import Util from './util.js';
 import Task from './task.js';
 import TaskEdit from './task-edit.js';
 
 const mainFilter = document.querySelector(`.main__filter`);
-const boardTasks = document.querySelector(`.board__tasks`);
 
 mainFilter.insertAdjacentHTML(`beforeend`, `
   ${makeFilter(`all`, `15`, false, true)}
@@ -20,6 +15,7 @@ mainFilter.insertAdjacentHTML(`beforeend`, `
   ${makeFilter(`archive`, `115`)}
 `);
 
+const boardTasks = document.querySelector(`.board__tasks`);
 
 const clearBoard = () => {
   while (boardTasks.firstChild) {
@@ -27,31 +23,33 @@ const clearBoard = () => {
   }
 };
 
-// boardTasks.insertAdjacentHTML(`beforeend`, generateRandomTasks());
-for (let task of allTasks) {
-  const taskComponent = new Task(task);
-  const editTaskComponent = new TaskEdit(task);
-  taskComponent.render(boardTasks);
+const generateRandomTasks = () => {
+  for (let task of allTasks) {
+    const taskComponent = new Task(task);
+    const editTaskComponent = new TaskEdit(task);
+    taskComponent.render(boardTasks);
 
-  taskComponent.onEdit = () => {
-    editTaskComponent.render();
-    boardTasks.replaceChild(editTaskComponent.element, taskComponent.element);
-    taskComponent.unrender();
-  };
+    taskComponent.onEdit = () => {
+      editTaskComponent.render(boardTasks);
+      boardTasks.replaceChild(editTaskComponent._element, taskComponent._element);
+      taskComponent.unrender();
+    };
 
-  editTaskComponent.onSubmit = () => {
-    taskComponent.render();
-    boardTasks.replaceChild(taskComponent.element, editTaskComponent.element);
-    editTaskComponent.unrender();
-  };
+    editTaskComponent.onSubmit = () => {
+      taskComponent.render(boardTasks);
+      boardTasks.replaceChild(taskComponent._element, editTaskComponent._element);
+      editTaskComponent.unrender();
+    };
+  }
+};
 
-}
+generateRandomTasks();
 
 const filtersList = document.querySelectorAll(`.filter__input`);
 
 Array.from(filtersList).forEach((elem) => {
   elem.addEventListener(`click`, () => {
     clearBoard();
-//    boardTasks.insertAdjacentHTML(`beforeend`, generateRandomTasks());
+    generateRandomTasks();
   });
 });
