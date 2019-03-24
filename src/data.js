@@ -73,7 +73,7 @@ export const dataTask = {
       'Fr': Util.getRandomBoolean(),
       'Sa': Util.getRandomBoolean(),
       'Su': Util.getRandomBoolean()
-    }
+    };
   },
   get isFavorite() {
     return Util.getRandomBoolean();

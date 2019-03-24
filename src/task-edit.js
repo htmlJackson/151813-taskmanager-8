@@ -42,8 +42,10 @@ class TaskEdit {
   get daysMarkdown() {
     let daysString = ``;
     for (const day in this._repeatingDays) {
-      daysString += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day}-4" name="repeat" value="${day}" ${this._repeatingDays[day] ? `checked` : ``}>
-      <label class="card__repeat-day" for="repeat-${day}-4">${day}</label>`;
+      if (this._repeatingDays.hasOwnProperty(day)) {
+        daysString += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day}-4" name="repeat" value="${day}" ${this._repeatingDays[day] ? `checked` : ``}>
+        <label class="card__repeat-day" for="repeat-${day}-4">${day}</label>`;
+      }
     }
     return daysString;
   }
