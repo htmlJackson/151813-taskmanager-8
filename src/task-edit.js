@@ -36,7 +36,7 @@ class TaskEdit {
        </button>
      </span>
      `;
-   }).join(``);
+    }).join(``);
   }
 
   get daysMarkdown() {
