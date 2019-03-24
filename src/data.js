@@ -64,14 +64,16 @@ export const dataTask = {
   get color() {
     return COLORS[Util.getRandomIndex(COLORS.length)];
   },
-  repeatingDays: {
-    'Mo': true,
-    'Tu': false,
-    'We': false,
-    'Th': false,
-    'Fr': true,
-    'Sa': false,
-    'Su': true
+  get repeatingDays() {
+    return {
+      'Mo': Util.getRandomBoolean(),
+      'Tu': Util.getRandomBoolean(),
+      'We': Util.getRandomBoolean(),
+      'Th': Util.getRandomBoolean(),
+      'Fr': Util.getRandomBoolean(),
+      'Sa': Util.getRandomBoolean(),
+      'Su': Util.getRandomBoolean()
+    }
   },
   get isFavorite() {
     return Util.getRandomBoolean();
@@ -81,10 +83,11 @@ export const dataTask = {
   }
 };
 
-const allTasks = [];
+const dataTasks = [];
 
 for (let i = 0; i < NUMBER_OF_TASKS; i++) {
-  allTasks.push(dataTask);
+  dataTasks.push(dataTask);
 }
 
-export {allTasks};
+export {dataTasks};
+window.dataTasks = dataTasks;

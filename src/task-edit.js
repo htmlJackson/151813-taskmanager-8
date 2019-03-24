@@ -11,9 +11,6 @@ class TaskEdit {
     this._time = data.time;
 
     this._element = null;
-    this._state = {
-      isEdit: false
-    };
   }
 
   _isRepeated() {
@@ -27,21 +24,28 @@ class TaskEdit {
   }
 
   get hashtagsMarkdown() {
-    const hashtags = [...this._tags].map((it) => {
+    return [...this._tags].map((tag) => {
       return `
-      <span class="card__hashtag-inner">
-        <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-        <button type="button" class="card__hashtag-name">
-          #${it}
-        </button>
-        <button type="button" class="card__hashtag-delete">
-          delete
-        </button>
-      </span>
-      `;
-    }).join(``);
+     <span class="card__hashtag-inner">
+       <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+       <button type="button" class="card__hashtag-name">
+         #${tag}
+       </button>
+       <button type="button" class="card__hashtag-delete">
+         delete
+       </button>
+     </span>
+     `;
+   }).join(``);
+  }
 
-    return hashtags;
+  get daysMarkdown() {
+    let daysString = ``;
+    for (const day in this._repeatingDays) {
+      daysString += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day}-4" name="repeat" value="${day}" ${this._repeatingDays[day] ? `checked` : ``}>
+      <label class="card__repeat-day" for="repeat-${day}-4">${day}</label>`;
+    }
+    return daysString;
   }
 
   get template() {
@@ -95,20 +99,7 @@ class TaskEdit {
 
                 <fieldset class="card__repeat-days">
                   <div class="card__repeat-days-inner">
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-4" name="repeat" value="mo">
-                    <label class="card__repeat-day" for="repeat-mo-4">mo</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-tu-4" name="repeat" value="tu" checked="">
-                    <label class="card__repeat-day" for="repeat-tu-4">tu</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-we-4" name="repeat" value="we">
-                    <label class="card__repeat-day" for="repeat-we-4">we</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-th-4" name="repeat" value="th">
-                    <label class="card__repeat-day" for="repeat-th-4">th</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-fr-4" name="repeat" value="fr" checked="">
-                    <label class="card__repeat-day" for="repeat-fr-4">fr</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" name="repeat" value="sa" id="repeat-sa-4">
-                    <label class="card__repeat-day" for="repeat-sa-4">sa</label>
-                    <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-su-4" name="repeat" value="su" checked="">
-                    <label class="card__repeat-day" for="repeat-su-4">su</label>
+                    ${this.daysMarkdown}
                   </div>
                 </fieldset>
               </div>
@@ -155,9 +146,13 @@ class TaskEdit {
     </article>`.trim();
   }
 
+  get element() {
+    return this._element;
+  }
+
   bind() {
     this._element.querySelector(`.card__save`)
-    .addEventListener(`click`, this._onSubmitButtonClick.bind(this));
+      .addEventListener(`click`, this._onSubmitButtonClick.bind(this));
   }
 
   render(container) {
@@ -166,7 +161,7 @@ class TaskEdit {
       this._element = null;
     }
 
-    this._element = Util.createElement(this.template);
+    this._element = Util.createDivElement(this.template);
     container.appendChild(this._element);
 
     this.bind();

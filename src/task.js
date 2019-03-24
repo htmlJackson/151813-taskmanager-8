@@ -11,9 +11,6 @@ class Task {
     this._time = data.time;
 
     this._element = null;
-    this._state = {
-      isEdit: false
-    };
   }
 
   _isRepeated() {
@@ -26,22 +23,20 @@ class Task {
     }
   }
 
-  get _hashtagsMarkdown() {
-    const hashtags = [...this._tags].map((it) => {
+  get hashtagsMarkdown() {
+    return [...this._tags].map((tag) => {
       return `
-      <span class="card__hashtag-inner">
-        <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-        <button type="button" class="card__hashtag-name">
-          #${it}
-        </button>
-        <button type="button" class="card__hashtag-delete">
-          delete
-        </button>
-      </span>
-      `;
-    }).join(``);
-
-    return hashtags;
+     <span class="card__hashtag-inner">
+       <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+       <button type="button" class="card__hashtag-name">
+         #${tag}
+       </button>
+       <button type="button" class="card__hashtag-delete">
+         delete
+       </button>
+     </span>
+     `;
+   }).join(``);
   }
 
   get template() {
@@ -92,7 +87,7 @@ class Task {
 
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
-                  ${this._hashtagsMarkdown}
+                  ${this.hashtagsMarkdown}
                 </div>
 
                 <label>
@@ -111,9 +106,13 @@ class Task {
     </article>`.trim();
   }
 
+  get element() {
+    return this._element;
+  }
+
   bind() {
     this._element.querySelector(`.card__btn--edit`)
-    .addEventListener(`click`, this._onEditButtonClick.bind(this));
+      .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
   render(container) {
@@ -122,7 +121,7 @@ class Task {
       this._element = null;
     }
 
-    this._element = Util.createElement(this.template);
+    this._element = Util.createDivElement(this.template);
     container.appendChild(this._element);
 
     this.bind();

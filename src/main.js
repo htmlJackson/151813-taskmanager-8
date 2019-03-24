@@ -1,5 +1,5 @@
 import makeFilter from './make-filter.js';
-import {allTasks} from './data.js';
+import {dataTasks} from './data.js';
 import Task from './task.js';
 import TaskEdit from './task-edit.js';
 
@@ -24,21 +24,21 @@ const clearBoard = () => {
 };
 
 const generateRandomTasks = () => {
-  for (let task of allTasks) {
-    const taskComponent = new Task(task);
-    const editTaskComponent = new TaskEdit(task);
+  for (const dataTask of dataTasks) {
+    const taskComponent = new Task(dataTask);
+    const taskEditComponent = new TaskEdit(dataTask);
     taskComponent.render(boardTasks);
 
     taskComponent.onEdit = () => {
-      editTaskComponent.render(boardTasks);
-      boardTasks.replaceChild(editTaskComponent._element, taskComponent._element);
+      taskEditComponent.render(boardTasks);
+      boardTasks.replaceChild(taskEditComponent.element, taskComponent.element);
       taskComponent.unrender();
     };
 
-    editTaskComponent.onSubmit = () => {
+    taskEditComponent.onSubmit = () => {
       taskComponent.render(boardTasks);
-      boardTasks.replaceChild(taskComponent._element, editTaskComponent._element);
-      editTaskComponent.unrender();
+      boardTasks.replaceChild(taskComponent.element, taskEditComponent.element);
+      taskEditComponent.unrender();
     };
   }
 };
